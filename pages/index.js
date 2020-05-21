@@ -113,13 +113,16 @@ const App = () => {
         enterButton
         css={css`
           width: 600px;
-          @media (max-width: 768px) {
+          @media (min-width: 540px) and (max-width: 700px) {
             width: 400px;
+          }
+          @media (max-width: 540px) {
+            width: 320px;
           }
         `}
         onSearch={handleSearch}
       />
-      <CardContainer gutter={[4, 24]}>
+      <CardContainer gutter={[0, 24]}>
         {!loading ? (
           movies ? (
             movies.map((movie, i) => (
