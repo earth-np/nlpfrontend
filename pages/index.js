@@ -93,7 +93,7 @@ const App = () => {
         }}
       />
       <img
-        src="/logo.svg"
+        src="/logo.png"
         css={css`
           width: 10rem;
           margin-top: 4rem;
@@ -101,7 +101,7 @@ const App = () => {
           z-index: 0;
         `}
       />
-      <Title>หนังชนะ</Title>
+      <Title>กรุณากรอกคำถามด้านล่างเพื่อทายชื่อหนัง</Title>
       <Search
         placeholder="กรุณากรอกคำถาม..."
         enterButton
