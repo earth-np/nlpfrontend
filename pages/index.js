@@ -1,20 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import css from "@emotion/css";
 import styled from "styled-components";
-import { Input, Card, Col, Row } from "antd";
+import { Input, Card, Col, Row, Skeleton, Avatar } from "antd";
+import axios from "axios";
+import Particles from "react-particles-js";
 import "antd/dist/antd.css";
 
 import "./style.css";
 
 const { Search } = Input;
 
+const { Meta } = Card;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: black;
-  color: white;
-  height: 100vh;
+  /* background-color: #0e0e0e; */
+  background-image: linear-gradient(#2b2b2b, #242424, #171717);
+  color: #ffffff;
+  padding-bottom: 4rem;
 `;
 
 const Title = styled.div`
@@ -23,42 +28,129 @@ const Title = styled.div`
 `;
 
 const CardContainer = styled(Row)`
-  margin-top: 4rem;
+  margin-top: 4rem !important;
+  max-width: 1440px;
 `;
 
 const MovieCard = styled(Card)`
-  width: 250px;
-  height: 300px;
+  width: 260px;
+  height: 440px;
 `;
 
-const App = () => (
-  <Container>
-    <Title>MovieGuesser</Title>
-    <Search
-      placeholder="Question..."
-      enterButton
-      size="large"
-      style={{ width: 600 }}
-      onSearch={(value) => console.log(value)}
-    />
-    <CardContainer gutter={32}>
-      <Col span={8}>
-        <MovieCard title="Movie name" bordered={false}>
-          Card content
-        </MovieCard>
-      </Col>
-      <Col span={8}>
-        <MovieCard title="Movie name" bordered={false}>
-          Card content
-        </MovieCard>
-      </Col>
-      <Col span={8}>
-        <MovieCard title="Movie name" bordered={false}>
-          Card content
-        </MovieCard>
-      </Col>
-    </CardContainer>
-  </Container>
-);
+const MovieImage = styled.div`
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: ${({ url }) => `url('${url}')`};
+  height: 100%;
+`;
+
+const App = () => {
+  const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const skeletonList = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+
+  useEffect(() => {
+    axios.get(`http://localhost:8080/movie`).then(({ data: { movies } }) => {
+      setMovies(movies);
+      setLoading(false);
+    });
+  }, []);
+
+  const handleSearch = async (search) => {
+    setLoading(true);
+    axios.get(`http://localhost:8080/movie/text?query=${search}`).then(({ data: { movies } }) => {
+      setMovies(movies);
+      setLoading(false);
+    });
+  };
+
+  return (
+    <Container>
+      <Particles
+        css={css`
+          position: absolute;
+          width: 100%;
+          height: 100%;
+        `}
+        params={{
+          particles: {
+            number: {
+              value: 50,
+            },
+            size: {
+              value: 3,
+            },
+          },
+          interactivity: {
+            events: {
+              onhover: {
+                enable: true,
+                mode: "repulse",
+              },
+            },
+          },
+        }}
+      />
+      <Title>หนังชนะ</Title>
+      <Search
+        placeholder="กรุณากรอกคำถาม..."
+        enterButton
+        style={{ width: 600 }}
+        onSearch={handleSearch}
+      />
+      <CardContainer gutter={[4, 24]}>
+        {!loading
+          ? movies.map((movie, i) => (
+              <Col
+                key={i}
+                span={8}
+                css={css`
+                  display: flex;
+                  justify-content: center;
+                `}
+              >
+                <MovieCard title={movie.name} bordered={false}>
+                  {movie.imageUrl ? (
+                    <MovieImage url={movie.imageUrl} />
+                  ) : (
+                    <div
+                      css={css`
+                        display: flex;
+                        justify-content: center;
+                      `}
+                    >
+                      Picture
+                    </div>
+                  )}
+                </MovieCard>
+              </Col>
+            ))
+          : skeletonList.map((item, i) => (
+              <Col
+                key={i}
+                span={8}
+                css={css`
+                  display: flex;
+                  justify-content: center;
+                `}
+              >
+                <MovieCard bordered={false}>
+                  <Skeleton
+                    loading={loading}
+                    active
+                    css={css`
+                      padding: 4rem;
+                    `}
+                  >
+                    <Meta title="Card title" description="This is the description" />
+                  </Skeleton>
+                </MovieCard>
+              </Col>
+            ))}
+      </CardContainer>
+    </Container>
+  );
+};
 
 export default App;
