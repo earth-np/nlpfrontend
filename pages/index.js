@@ -20,6 +20,7 @@ const Container = styled.div`
   background-image: linear-gradient(#2b2b2b, #242424, #171717);
   color: #ffffff;
   padding-bottom: 4rem;
+  min-height: 100vh;
 `;
 
 const Title = styled.div`
@@ -62,6 +63,7 @@ const App = () => {
     axios
       .get(`http://nangchana.joetokens.com/api/movie/text?query=${search}`)
       .then(({ data: { movies } }) => {
+        console.log("movies", movies);
         setMovies(movies);
         setLoading(false);
       });
@@ -111,8 +113,9 @@ const App = () => {
         onSearch={handleSearch}
       />
       <CardContainer gutter={[4, 24]}>
-        {!loading
-          ? movies.map((movie, i) => (
+        {!loading ? (
+          movies ? (
+            movies.map((movie, i) => (
               <Col
                 key={i}
                 span={8}
@@ -137,28 +140,39 @@ const App = () => {
                 </MovieCard>
               </Col>
             ))
-          : skeletonList.map((item, i) => (
-              <Col
-                key={i}
-                span={8}
-                css={css`
-                  display: flex;
-                  justify-content: center;
-                `}
-              >
-                <MovieCard bordered={false}>
-                  <Skeleton
-                    loading={loading}
-                    active
-                    css={css`
-                      padding: 4rem;
-                    `}
-                  >
-                    <Meta title="Card title" description="This is the description" />
-                  </Skeleton>
-                </MovieCard>
-              </Col>
-            ))}
+          ) : (
+            <div
+              css={css`
+                font-size: 1.25rem;
+              `}
+            >
+              ไม่พบหนังที่คุณค้นหา
+            </div>
+          )
+        ) : (
+          skeletonList.map((item, i) => (
+            <Col
+              key={i}
+              span={8}
+              css={css`
+                display: flex;
+                justify-content: center;
+              `}
+            >
+              <MovieCard bordered={false}>
+                <Skeleton
+                  loading={loading}
+                  active
+                  css={css`
+                    padding: 4rem;
+                  `}
+                >
+                  <Meta title="Card title" description="This is the description" />
+                </Skeleton>
+              </MovieCard>
+            </Col>
+          ))
+        )}
       </CardContainer>
     </Container>
   );
