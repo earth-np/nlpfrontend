@@ -1,0 +1,34 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap);
+@import url(https://fonts.googleapis.com/css?family=Prompt:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap);
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+body {
+  font-family: Open Sans, Prompt;
+  outline: none;
+  margin: 0;
+  overscroll-behavior-y: none;
+}
+
+.ant-input:hover {
+  border-color: #ce2727 !important;
+}
+
+.ant-btn-primary {
+  background-color: #ce2727;
+  border-color: #ce2727;
+}
+
+.ant-btn-primary:hover,
+.ant-btn-primary:focus {
+  background-color: #e72d2d !important;
+  border-color: #e72d2d !important;
+}
+.ant-card-body {
+  padding: 0;
+  height: 87.5%;
+}
+
