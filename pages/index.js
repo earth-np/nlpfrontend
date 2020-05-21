@@ -24,8 +24,10 @@ const Container = styled.div`
 `;
 
 const Title = styled.div`
+  margin: 0 1rem;
   margin-bottom: 4rem;
   font-size: 3rem;
+  text-align: center;
 `;
 
 const CardContainer = styled(Row)`
@@ -109,7 +111,12 @@ const App = () => {
       <Search
         placeholder="กรุณากรอกคำถาม..."
         enterButton
-        style={{ width: 600 }}
+        css={css`
+          width: 600px;
+          @media (max-width: 768px) {
+            width: 400px;
+          }
+        `}
         onSearch={handleSearch}
       />
       <CardContainer gutter={[4, 24]}>
@@ -123,6 +130,9 @@ const App = () => {
                   display: flex;
                   justify-content: center;
                 `}
+                xs={24}
+                md={12}
+                lg={8}
               >
                 <MovieCard title={movie.name} bordered={false}>
                   {movie.imageUrl ? (
@@ -158,6 +168,9 @@ const App = () => {
                 display: flex;
                 justify-content: center;
               `}
+              xs={24}
+              md={12}
+              lg={8}
             >
               <MovieCard bordered={false}>
                 <Skeleton
