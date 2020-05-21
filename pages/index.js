@@ -51,7 +51,7 @@ const App = () => {
   const skeletonList = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/movie`).then(({ data: { movies } }) => {
+    axios.get(`http://nangchana.joetokens.com/api/movie`).then(({ data: { movies } }) => {
       setMovies(movies);
       setLoading(false);
     });
@@ -59,10 +59,12 @@ const App = () => {
 
   const handleSearch = async (search) => {
     setLoading(true);
-    axios.get(`http://localhost:8080/movie/text?query=${search}`).then(({ data: { movies } }) => {
-      setMovies(movies);
-      setLoading(false);
-    });
+    axios
+      .get(`http://nangchana.joetokens.com/api/movie/text?query=${search}`)
+      .then(({ data: { movies } }) => {
+        setMovies(movies);
+        setLoading(false);
+      });
   };
 
   return (
