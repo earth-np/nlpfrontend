@@ -23,7 +23,7 @@ const Container = styled.div`
 `;
 
 const Title = styled.div`
-  margin: 4rem 0;
+  margin-bottom: 4rem;
   font-size: 3rem;
 `;
 
@@ -76,7 +76,7 @@ const App = () => {
         params={{
           particles: {
             number: {
-              value: 50,
+              value: 60,
             },
             size: {
               value: 3,
@@ -91,6 +91,15 @@ const App = () => {
             },
           },
         }}
+      />
+      <img
+        src="/logo.svg"
+        css={css`
+          width: 10rem;
+          margin-top: 4rem;
+          margin-bottom: 1.5rem;
+          z-index: 0;
+        `}
       />
       <Title>หนังชนะ</Title>
       <Search
