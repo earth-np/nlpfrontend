@@ -18,7 +18,7 @@
     "@zeit/next-css": "^1.0.1",
     "add": "^2.0.6",
     "antd": "^4.1.4",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "babel-plugin-styled-components": "^1.10.7",
     "google-images": "^2.1.0",
     "next": "^9.3.5",
